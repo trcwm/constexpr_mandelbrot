@@ -1,5 +1,7 @@
 #pragma once
 
+#include "rescale.h"
+
 static constexpr int width  = 400;
 static constexpr int height = 300;
 static constexpr int deltah = height/4;
@@ -31,26 +33,6 @@ struct MyComplex
     float m_x, m_y;
 };
 
-static constexpr int8_t sqrt(const int v)
-{
-    if (v >= 15*15) return 15;
-    if (v >= 14*14) return 14;
-    if (v >= 13*13) return 13;
-    if (v >= 12*12) return 12;
-    if (v >= 11*11) return 11;
-    if (v >= 10*10) return 10;
-    if (v >= 9*9) return 9;
-    if (v >= 8*8) return 8;
-    if (v >= 7*7) return 7;
-    if (v >= 6*6) return 6;
-    if (v >= 5*5) return 5;    
-    if (v >= 4*4) return 4;
-    if (v >= 3*3) return 3;
-    if (v >= 2*2) return 2;
-    if (v >= 1) return 1;
-    return 0;
-}
-
 static constexpr auto mandelbrot(const int ystart, const int yend)
 {
     constexpr int maxiter = 255;
@@ -75,7 +57,8 @@ static constexpr auto mandelbrot(const int ystart, const int yend)
                 }
                 iteration++;
             }
-            bitmap.at(x+width*(y-ystart)) = sqrt(iteration)*17;
+            bitmap[x+width*(y-ystart)] = rescale(iteration);
+            //bitmap.at(x+width*(y-ystart)) = iteration;
         }
     }
 
